@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Транслитератор</title>
+
+    <style>
+        body {
+            font-family: sans-serif;
+            box-sizing: border-box;
+            margin: 0; /* Обнуляем отступы для body */
+        }
+
+        #header-container {
+            width: 80%;
+            margin: 0 auto; /* Центрируем контейнер заголовка */
+            text-align: left; /* Центрируем текст внутри контейнера */
+            margin-bottom: 50px;
+        }
+
+        h2 {
+            margin: 0; /* Убираем лишние отступы */
+        }
+
+        #container {
+            display: flex;
+            width: 80%;
+            margin: 0 auto; /* Централизованный контейнер */
+            padding: 0 1px;
+        }
+
+        .field-wrapper {
+            display: flex;
+            flex-direction: column; /* Ставим элементы в столбец */
+            margin-right: 10px; /* Отступ между блоками */
+            width: 40%;
+        }
+
+        .field-label {
+            margin-bottom: 5px; /* Небольшой отступ от метки до поля */
+        }
+        #inputField, #outputField {
+            flex: 1;
+            padding: 5px;
+            border: 2px solid #605c5c;
+            border-radius: 5px;
+            outline: none;
+            box-sizing: border-box;
+            margin: 0;
+            min-height: 200px;
+            font-size: 1.2em;
+            font-family: inherit;
+            resize: none;
+        }
+
+        #inputField {
+            background-color: #eae5e5;
+        }
+
+        #outputField{
+            background-color: #f3dfdd;
+        }
+
+        #inputField:focus, #outputField:focus {
+            outline: none;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<div id="header-container"> <!-- Обертка для заголовка -->
+    <h2>Транслитератор</h2>  <!-- Централизованный заголовок -->
+</div>
+
+<div id="container">
+    <div class="field-wrapper">
+        <span class="field-label">Кириллицей</span>
+        <textarea id="inputField" placeholder="Введите текст на русском языке сюда" th:text="${cyrillicText}"></textarea>
+    </div>
+    <div class="field-wrapper">
+        <span class="field-label">Латиницей</span>
+        <textarea id="outputField" placeholder="Результат транслитерации будет здесь" contenteditable="true" th:text="${latinText}"></textarea>
+    </div>
+</div>
+
+<script>
+    const inputField = document.getElementById('inputField');
+    const outputField = document.getElementById('outputField');
+
+    inputField.addEventListener('input', () => {
+        const cyrillicText = inputField.value;
+        fetch('/translit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({cyrillicText: cyrillicText})
+        }).then(response => response.json())
+            .then(data => {
+            outputField.textContent = data.latinText;
+        })
+            .catch(error => {
+            console.error('Error:', error);
+            outputField.textContent = "Ошибка транслитерации";
+        });
+    });
+</script>
+
+</body>
+</html>
