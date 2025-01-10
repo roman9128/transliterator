@@ -7,9 +7,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-public class TransliteratorGUI extends JFrame implements TransliteratorView {
+public class TransliteratorGUI extends JFrame {
 
-    private TransliteratorLogic transliterator;
+    private Transliterator transliterator;
 
     private static final int WINDOW_HEIGHT = 500;
     private static final int WINDOW_WIDTH = 1000;
@@ -21,7 +21,9 @@ public class TransliteratorGUI extends JFrame implements TransliteratorView {
     private final JLabel latinLabel = new JLabel();
     private JButton clearBtn = new JButton("Очистить");
 
-    public TransliteratorGUI() {
+    public TransliteratorGUI(Transliterator transliterator) {
+
+        this.transliterator = transliterator;
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocation(WINDOW_POSX, WINDOW_POSY);
@@ -81,13 +83,7 @@ public class TransliteratorGUI extends JFrame implements TransliteratorView {
         latinTextArea.setText("");
     }
 
-    @Override
     public void makeTranslit(String cyrillicText) {
         latinTextArea.setText(transliterator.translit(cyrillicText));
-    }
-
-    @Override
-    public void setTransliterator(TransliteratorLogic transliterator) {
-        this.transliterator = transliterator;
     }
 }

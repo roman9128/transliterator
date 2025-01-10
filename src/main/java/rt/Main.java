@@ -2,6 +2,6 @@ package rt;
 
 public class Main {
     public static void main(String[] args) {
-        new Service();
+        new TransliteratorGUI(new Transliterator());
     }
 }

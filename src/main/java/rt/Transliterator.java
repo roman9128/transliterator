@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class TransliteratorLogic {
+public class Transliterator {
 
     private final List<Character> cyrillicSymbols = Arrays.asList(
             'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ё', 'Ж', 'З', 'И', 'Й',
@@ -34,8 +34,6 @@ public class TransliteratorLogic {
             'I', 'i');
     private final List<Character> latinSymbolsForJ = Arrays.asList(
             'J', 'j');
-
-    private TransliteratorView view;
 
     public String translit(String cyrillicText) {
         StringBuilder builder = new StringBuilder();
@@ -87,9 +85,5 @@ public class TransliteratorLogic {
                 .filter(ch -> !ch.equals(Character.MIN_VALUE))
                 .map(String::valueOf)
                 .collect(Collectors.joining());
-    }
-
-    public void setView(TransliteratorView view) {
-        this.view = view;
     }
 }
